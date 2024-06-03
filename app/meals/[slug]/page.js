@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import classes from './page.module.css';
 import { getMeal } from '@/lib/meals';
+import { notFound } from 'next/navigation'
 
 export default function MealDetailsPage({params}) {
     const meal = getMeal(params.slug);
-    console.log('mmm ', meal)
+
+    if(!meal) {
+        notFound();
+    }
+
+    meal.instructions = meal.instructions.replace(/\n/g, '<br />')
     return <>
         <header className={classes.header}>
             <div className={classes.image}>
